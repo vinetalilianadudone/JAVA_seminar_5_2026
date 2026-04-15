@@ -35,7 +35,7 @@ public class Product {
 	@Column(name = "Title")
 	@NotNull
 	@NotEmpty
-	@Pattern(regexp = "[A-Z]{1}[a-z]{2,30}")
+	@Pattern(regexp = "[A-Z]{1}[a-z ]{2,30}")
 	private String title;
 	
 	@Column(name = "Price")
@@ -50,7 +50,7 @@ public class Product {
 	
 	@Column(name = "Description")
 	@NotNull(message = "Aprakstam vajag būt reālām")
-	@Pattern(regexp = "[A-Z]{1}[a-z]{2,10}")
+	@Pattern(regexp = "[A-Za-z 0-9]{0,400}")
 	private String description;
 	
 	@Column(name = "ProductType")
@@ -69,6 +69,12 @@ public class Product {
 		setPrice(inputPrice);
 		setQuantity(inputQuantity);
 		setProductType(inputProductType);
+		
+	}
+
+
+	public void setQuantity() {
+		// TODO Auto-generated method stub
 		
 	}
 	//5. toString - nak no lombok bibliotekas
