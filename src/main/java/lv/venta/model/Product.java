@@ -8,10 +8,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,10 +36,11 @@ public class Product {
 	@NotNull
 	@NotEmpty
 	@Pattern(regexp = "[A-Z]{1}[a-z ]{2,30}")
+	//@Size(min = 3, max = 31)
 	private String title;
 	
 	@Column(name = "Price")
-	@Min(value = 0)
+	@Min(0)
 	@Max(1000)
 	private float price;
 	
@@ -49,8 +50,8 @@ public class Product {
 	private int quantity;
 	
 	@Column(name = "Description")
-	@NotNull(message = "Aprakstam vajag būt reālām")
-	@Pattern(regexp = "[A-Za-z 0-9]{0,400}")
+	@NotNull(message = "Aprakstam jabut realam")
+	@Pattern(regexp = "[A-Za-z 0-9]{0,400}", message = "Var saturet tikai burtus un ciparus")
 	private String description;
 	
 	@Column(name = "ProductType")
@@ -61,7 +62,7 @@ public class Product {
 	//2. getters - nak no lombok bibliotekas
 	//3. setters - nak no lombok bibliotekas
 	//4. abi konstruktori - bez argumenata konstruktors nak no lombok bibliotekas
-	
+
 	public Product(String inputTitle, float inputPrice, int inputQuantity, String inputdescription,
 			ProductType inputProductType) {
 		setTitle(inputTitle);
@@ -73,10 +74,6 @@ public class Product {
 	}
 
 
-	public void setQuantity() {
-		// TODO Auto-generated method stub
-		
-	}
 	//5. toString - nak no lombok bibliotekas
 	//6. parejas funkcijas
 

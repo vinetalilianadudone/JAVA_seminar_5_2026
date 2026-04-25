@@ -29,7 +29,7 @@ public class ProductCRUDServiceImpl implements IProductCRUDService{
 		
 		//parbaudam, vai tads produkts jau eksiste, ja ta, tad papildinama krajumus
 		if(prodRepo.existsByTitleAndPriceAndDescriptionAndProductType(title, price, description, type )) {
-			boolean productfromDB = prodRepo.existsByTitleAndPriceAndDescriptionAndProductType
+			Product productfromDB = prodRepo.findByTitleAndPriceAndDescriptionAndProductType
 					(title, price, description, type);
 			
 			int newQuantity = productfromDB.getQuantity() + quantity;
@@ -42,8 +42,7 @@ public class ProductCRUDServiceImpl implements IProductCRUDService{
 			Product newProduct = new Product(title, price, quantity, description, type);
 			prodRepo.save(newProduct);//izpildas INSERT INTO vaicajums
 		}
-		
-		
+				
 	}
 
 	@Override

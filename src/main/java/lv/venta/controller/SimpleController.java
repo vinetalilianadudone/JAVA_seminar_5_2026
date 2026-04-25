@@ -62,7 +62,6 @@ public class SimpleController {
 	
 	@PostMapping("/add")
 	public String postAddNewProduct(Product product) {
-		//TODO veic datu parbaydi un saglabasanu
 		System.out.println(product);
 		return "redirect:/simple/page";
 	}
