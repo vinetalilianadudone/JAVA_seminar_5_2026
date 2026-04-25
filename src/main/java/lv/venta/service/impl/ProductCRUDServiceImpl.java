@@ -42,7 +42,8 @@ public class ProductCRUDServiceImpl implements IProductCRUDService{
 			Product newProduct = new Product(title, price, quantity, description, type);
 			prodRepo.save(newProduct);//izpildas INSERT INTO vaicajums
 		}
-				
+		
+		
 	}
 
 	@Override
