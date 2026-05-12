@@ -29,13 +29,13 @@ public class SimpleController {
 		Random rand = new Random();
 		String data = "@Vineta " + rand.nextInt(2010, 2026);
 		model.addAttribute("package", data);
-		return "show-data-page";//tiks paradita show-data-page.html lapa
+		return "show-data-page";
 	}
 	@GetMapping("/product")//localhost:9000/simple/product
 	public String getProductInPage(Model model) {
 		Product prod = new Product("Abols", 0.99f, 5, "Garsigs", ProductType.fruit);
 		model.addAttribute("package", prod);
-		return "show-one-product-page";//tiks paradita show-one-product-page.html lapa
+		return "show-one-product-page";
 		
 	}
 	
@@ -49,19 +49,19 @@ public class SimpleController {
 		ArrayList<Product> allProducts = new ArrayList<Product>(Arrays.asList(prod1, prod2, prod3));
 		
 		model.addAttribute("package", allProducts);
-		return "show-all-products-page";//tiks paradita show-all-products-page.html lapa
+		return "show-all-products-page";
 	}
 	
 	@GetMapping("/add")//localhost:9000/simple/add
 	public String getAddNewProduct(Model model) {
-		//lai iveidotu jaunu produktu, iedodam noklsueto proukdu, kuru pec tam vares aizpildit html puse
 		model.addAttribute("product", new Product());
-		return "add-new-product-page";//tiks paradita add-new-product-page.html lapa
+		return "add-new-product-page";
 	}
 	
 	
 	@PostMapping("/add")
 	public String postAddNewProduct(Product product) {
+		//TODO veic datu parbaudi un saglabašanu
 		System.out.println(product);
 		return "redirect:/simple/page";
 	}
@@ -72,16 +72,15 @@ public class SimpleController {
 		//TODO izmantot kadu filtru, lai samekletu konkreto produktu, kuru updeito
 		Product prod = new Product("Abols", 0.99f, 5, "Garsigs", ProductType.fruit);
 		model.addAttribute("product", prod);
-		return "update-product-page";//tiks paradita update-product-page.html lapa
+		return "update-product-page";
 	}
 	
 	
 	@PostMapping("/update")
 	public String postUpdateProduct(Product product) {
-		//TODO veic datu parbaydi un saglabasanu redigetajam produktam
+		//TODO veic datu parbaudi un saglabasanu redigetajam produktam
 		System.out.println(product);
 		return "redirect:/simple/page";
 	}
-	
 	
 }

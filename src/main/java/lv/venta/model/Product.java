@@ -29,7 +29,7 @@ public class Product {
 	@Setter(value = AccessLevel.NONE)
 	@Column(name = "Id")
 	@Id //ka primara atslega
-	@GeneratedValue(strategy = GenerationType.AUTO)//tiks glabat DB automatiska pec ato increament algoritma
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
 	@Column(name = "Title")
@@ -72,9 +72,4 @@ public class Product {
 		setProductType(inputProductType);
 		
 	}
-
-
-	//5. toString - nak no lombok bibliotekas
-	//6. parejas funkcijas
-
 }

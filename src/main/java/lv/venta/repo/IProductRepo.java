@@ -12,7 +12,6 @@ public interface IProductRepo extends CrudRepository<Product, Long> {
 
 	boolean existsByTitleAndPriceAndDescriptionAndProductType(String title, float price, String description,
 			ProductType type);
-	//TODO papildinat pec nepieciesamaibas citas funkcijas
 
 	Product findByTitleAndPriceAndDescriptionAndProductType(String title, float price, String description,
 			ProductType type);
@@ -25,5 +24,9 @@ public interface IProductRepo extends CrudRepository<Product, Long> {
 
 	@Query(nativeQuery = true, value = "SELECT AVG(price) FROM product_table;")
 	float calculateAvgPriceFromDB();
+
+	ArrayList<Product> findByQuantityGreaterThan(int threshold);
+
+	ArrayList<Product> findByTitle(String title);
 
 }

@@ -16,7 +16,6 @@ public class ProductCRUDServiceImpl implements IProductCRUDService{
 	@Autowired
 	private IProductRepo prodRepo;
 	
-	
 	@Override
 	public void create(String title, float price, int quantity, String description, ProductType type) throws Exception {
 		if(title == null || !title.matches("[A-Z]{1}[a-z ]{2,30}")
@@ -34,13 +33,13 @@ public class ProductCRUDServiceImpl implements IProductCRUDService{
 			
 			int newQuantity = productfromDB.getQuantity() + quantity;
 			productfromDB.setQuantity(newQuantity);
-			prodRepo.save(productfromDB);//izpildas UPDATE vaicajums
+			prodRepo.save(productfromDB);
 			
 		}
 		else
 		{
 			Product newProduct = new Product(title, price, quantity, description, type);
-			prodRepo.save(newProduct);//izpildas INSERT INTO vaicajums
+			prodRepo.save(newProduct);
 		}
 		
 		

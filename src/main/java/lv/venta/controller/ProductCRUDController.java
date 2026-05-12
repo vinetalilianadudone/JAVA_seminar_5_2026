@@ -1,5 +1,7 @@
 package lv.venta.controller;
 
+import javax.naming.Binding;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,7 +28,7 @@ public class ProductCRUDController {
 		try
 		{
 			model.addAttribute("package", prodService.retrieveAll());
-			return "show-all-products-page";//tiks paradita show-all-products-page.html lapa
+			return "show-all-products-page";
 		}
 		catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
@@ -34,13 +36,15 @@ public class ProductCRUDController {
 		}
 	}
 	
-	@GetMapping("/one")	//localhost:9000/product/crud/one?id=2 - id = 1, 2, 3
-	public String getOneProductById(@RequestParam(name = "id") long id, Model model) {
+	//pirmais variants ar ?
+	@GetMapping("/one")//localhost:9000/product/crud/one?id=2
+	public String getOneProductById1(@RequestParam(name = "id") long id, Model model) {
 		try
 		{
 			Product prodFromDB = prodService.retrieveById(id);
 			model.addAttribute("package", prodFromDB);
-			return "show-one-product-page";//tiks paradita show-one-product-page.html lapa
+			return "show-one-product-page";
+			
 		}
 		catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
@@ -48,72 +52,94 @@ public class ProductCRUDController {
 		}
 	}
 	
-	@GetMapping("/all/{id}")	//localhost:9000/product/crud/all/2
+	//otrais variants ar /
+	@GetMapping("/all/{id}")//localhost:9000/product/crud/all/2
 	public String getOneProductById2(@PathVariable(name = "id") long id, Model model) {
 		try
 		{
 			Product prodFromDB = prodService.retrieveById(id);
 			model.addAttribute("package", prodFromDB);
-			return "show-one-product-page";//tiks paradita show-one-product-page.html lapa
+			return "show-one-product-page";
+			
 		}
 		catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
 			return "error-page";
 		}
 	}
-
+	
 	@GetMapping("/add")//localhost:9000/product/crud/add
 	public String getAddNewProduct(Model model) {
-		//lai iveidotu jaunu produktu, iedodam noklsueto proukdu, kuru pec tam vares aizpildit html puse
 		model.addAttribute("product", new Product());
-		return "add-new-product-page";//tiks paradita add-new-product-page.html lapa
+		return "add-new-product-page";
 	}
 	
 	@PostMapping("/add")
 	public String postAddNewProduct(@Valid Product product, BindingResult result,  Model model) {
+		//ja ievades datos ir kads validacijas parkapums
 		if(result.hasErrors()) {
 			return "add-new-product-page";
-		}	
-		try 
+		}
+		
+		try
 		{
-			prodService.create(product.getTitle(), product.getPrice(), product.getQuantity(), 
+			prodService.create(product.getTitle(), product.getPrice(), product.getQuantity(),
 				product.getDescription(), product.getProductType());
+		
+			//ja ir redirect, tad uz url adresi parmet (ne lapu)
 			return "redirect:/product/crud/all";
-	}
+		}
 		catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
 			return "error-page";
-
 		}
 	}
 	
+	
 	@GetMapping("/update/{id}")//localhost:9000/product/crud/update/2
 	public String getUpdateProductById(@PathVariable(name = "id") long id, Model model) {
+		
 		try
 		{
 			Product prodFromDB = prodService.retrieveById(id);
 			model.addAttribute("product", prodFromDB);
-			return "update-product-page";//tiks paradita show-one-product-page.html lapa
+			return "update-product-page";
+			
 		}
 		catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
 			return "error-page";
 		}
+		
 	}
 	
+	
 	@PostMapping("/update/{id}")
-	public String postUpdateProductById(@PathVariable(name = "id") long id, Product product, Model model) {
-		try 
-		{
-			prodService.updateById(id, product.getTitle(), product.getPrice(), product.getQuantity(), 
-				product.getDescription(), product.getProductType());
-			return "redirect:/product/crud/all";
-	}
-		catch (Exception e) {
-			model.addAttribute("package", e.getMessage());
-			return "error-page";
+	public String postUpdateProductById(
+	        @PathVariable(name = "id") long id,
+	        @Valid Product product,
+	        BindingResult result,
+	        Model model) {
 
-		}
+	    if(result.hasErrors()) {
+	        return "update-product-page";
+	    }
+
+	    try
+	    {
+	        prodService.updateById(id,
+	                product.getTitle(),
+	                product.getPrice(),
+	                product.getQuantity(),
+	                product.getDescription(),
+	                product.getProductType());
+
+	        return "redirect:/product/crud/all";
+	    }
+	    catch (Exception e) {
+	        model.addAttribute("package", e.getMessage());
+	        return "error-page";
+	    }
 	}
 	
 	@GetMapping("/delete/{id}")
@@ -129,6 +155,5 @@ public class ProductCRUDController {
 			return "error-page";
 		}
 	}
-	
-	
+		
 }
