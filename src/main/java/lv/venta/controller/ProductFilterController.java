@@ -89,4 +89,40 @@ public class ProductFilterController {
 			return "error-page";
 		}
 	}
+	
+	// localhost:9000/product/filter/keyword/{keyword}
+	// localhost:9000/product/filter/keyword/abols
+	@GetMapping("/keyword/{keyword}")
+	public String getFilterProductByKeyword(@PathVariable String keyword, Model model) {
+		try {
+			ArrayList<Product> productsFromDB = prodFilterService.filterByKeyword(keyword);
+
+			model.addAttribute("package", productsFromDB);
+			model.addAttribute("myHeader", "Produkti, kas satur atslēgvārdu: " + keyword);
+
+			return "show-all-products-page";
+		} catch (Exception e) {
+			model.addAttribute("package", e.getMessage());
+			return "error-page";
+		}
+	}
+
+	// localhost:9000/product/filter/average-price
+	@GetMapping("/average-price")
+	public String getAveragePrice(Model model) {
+		try {
+			float avgPrice = prodFilterService.calculateAvgPrice();
+
+			// ziņojumu par cenu padodam caur virsrakstu vai atsevišķu mainīgo.
+			model.addAttribute("myHeader", "Visu produktu vidējā cena ir: " + avgPrice + " EUR");
+			model.addAttribute("package", new ArrayList<Product>()); 
+
+			return "show-all-products-page";
+		} catch (Exception e) {
+			model.addAttribute("package", e.getMessage());
+			return "error-page";
+		}
+	}
+
+
 }

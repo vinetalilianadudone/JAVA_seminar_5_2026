@@ -18,4 +18,5 @@ public interface IProductFilterService {
 	ArrayList<Product> filterByKeyword(String keyword) throws Exception;
 
 	float calculateAvgPrice() throws Exception;
+
 }
