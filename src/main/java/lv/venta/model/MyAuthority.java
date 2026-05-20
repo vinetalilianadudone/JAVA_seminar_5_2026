@@ -40,7 +40,7 @@ public class MyAuthority {
 	@Pattern(regexp = "[A-Z_]{4-10}")
 	private String title;
 	
-	@OneToMany(mappedBy = "myAuthority", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "myAuthority", fetch = FetchType.EAGER)
 	@ToString.Exclude
 	private Collection<MyUser> users = new ArrayList<MyUser>();
 	
