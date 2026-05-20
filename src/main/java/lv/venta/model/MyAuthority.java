@@ -28,6 +28,10 @@ import lombok.ToString;
 @Entity
 public class MyAuthority {
 
+	public MyAuthority(String string) {
+		// TODO Auto-generated constructor stub
+	}
+
 	@Setter(value = AccessLevel.NONE)
 	@Column(name = "Ida")
 	@Id
