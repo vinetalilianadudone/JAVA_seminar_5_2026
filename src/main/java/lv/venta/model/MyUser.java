@@ -27,7 +27,7 @@ public class MyUser {
 	@Setter(value = AccessLevel.NONE)
 	@Column(name = "IdU")
 	@Id //ka primara atslega
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)//tiks glabat DB automatiska pec ato increament algoritma
 	private long idu;
 	
 	@Column(name = "Username")

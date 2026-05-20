@@ -2,6 +2,7 @@ package lv.venta.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -12,25 +13,44 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
+import lv.venta.service.impl.MyUserDetailsManagerService;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 	
-	@Bean
+	//TODO nomainit, lai lietotjaus nem no datubazes
+	/*@Bean
 	public UserDetailsManager createTestUsers() {
-		
 		PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 		
-		UserDetails userD1 = User.builder().username("vineta").password(encoder.encode("123")).authorities("USER").build();
-		UserDetails userD2 = User.builder().username("janis").password(encoder.encode("321")).authorities("USER").build();
-		UserDetails userD3 = User.builder().username("admin").password(encoder.encode("987")).authorities("ADMIN").build();
-
+		UserDetails userD1 = User.builder().username("karina").password(encoder.encode("")).authorities("USER").build();
+		UserDetails userD2 = User.builder().username("janis").password(encoder.encode("")).authorities("USER").build();
+		UserDetails userD3 = User.builder().username("admin").password(encoder.encode("")).authorities("ADMIN").build();
+		
+		
 		InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager(userD1, userD2, userD3);
 		return manager;
+		
+	}
+	*/
+	@Bean
+	public MyUserDetailsManagerService createDetailsService() {
+		return new MyUserDetailsManagerService();
 	}
 	
 	@Bean
-	public SecurityFilterChain configureEndPoints(HttpSecurity http) {
+	public DaoAuthenticationProvider createProvider() {
+		DaoAuthenticationProvider provider = new DaoAuthenticationProvider(createDetailsService());
+		PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		provider.setPasswordEncoder(encoder);
+		return provider;
+		
+	}
+	
+	
+	@Bean
+	public SecurityFilterChain configureEndpoints(HttpSecurity http) {
 		
 		http.authorizeHttpRequests(
 				auth->auth
@@ -41,11 +61,15 @@ public class SecurityConfig {
 				.requestMatchers("/product/crud/update/**").hasAnyAuthority("ADMIN", "USER")
 				.requestMatchers("/product/crud/delete/**").hasAuthority("ADMIN")
 				.requestMatchers("/product/filter/price/**").permitAll()
-				// TODO uztaisit parejam kontrolieru funkcijasm
-	);
+				
+				//TODO uztaisit ari parejam kontrolieru funkcijam, piemeram no Simplecontroller
+				);
 		
 		http.formLogin(auth->auth.permitAll());
 		
 		return http.build();
+		
+		
 	}
+
 }

@@ -5,7 +5,6 @@ import java.util.Collection;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,7 +18,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
+//git checkout master
+//git pull origin master
+//gir branch 
+//git merge ritvars
 @Getter
 @Setter
 @NoArgsConstructor
@@ -27,25 +29,25 @@ import lombok.ToString;
 @Table(name = "MyAuthorityTable")
 @Entity
 public class MyAuthority {
-
-	public MyAuthority(String string) {
-		// TODO Auto-generated constructor stub
-	}
-
+	
 	@Setter(value = AccessLevel.NONE)
 	@Column(name = "Ida")
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Id //ka primara atslega
+	@GeneratedValue(strategy = GenerationType.AUTO)//tiks glabat DB automatiska pec ato increament algoritma
 	private long ida;
 	
 	@Column(name = "Title")
 	@NotNull
 	@NotEmpty
-	@Pattern(regexp = "[A-Z_]{4-10}")
+	@Pattern(regexp = "[A-Z_]{4,10}")
 	private String title;
 	
-	@OneToMany(mappedBy = "myAuthority", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy =  "authority")
 	@ToString.Exclude
-	private Collection<MyUser> users = new ArrayList<MyUser>();
+	private Collection<MyUser> users = new ArrayList<>();
+	
+	public MyAuthority(String title) {
+		setTitle(title);
+	}
 	
 }
