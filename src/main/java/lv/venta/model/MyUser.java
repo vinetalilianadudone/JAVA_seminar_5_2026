@@ -1,14 +1,13 @@
 package lv.venta.model;
 
-import java.util.Collection;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -28,7 +27,6 @@ import lombok.ToString;
 @Entity
 public class MyUser {
 	
-	// 1. mainīgie
 	@Column(name = "Username")
 	@NotNull
 	@NotEmpty
@@ -45,11 +43,16 @@ public class MyUser {
 	@Column(name = "Password")
 	@NotNull
 	@NotEmpty
-	@Size(min = 6, max = 100)
+	@Size(min = 6, max = 12)
 	private String password;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "Ida")
+	private MyAuthority myAuthority;
 
-	public MyUser(String inputUsername, String inputPassword) {
+	public MyUser(String inputUsername, String inputPassword, MyAuthority inputMyAuthority) {
 		setUsername(inputUsername);
 		setPassword(inputPassword);
+		setMyAuthority(inputMyAuthority);
 	}
 }
